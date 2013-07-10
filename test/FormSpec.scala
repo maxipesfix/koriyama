@@ -17,33 +17,34 @@ class FormSpec extends Specification {
       form.hasErrors must beTrue
       form.errors.size must equalTo(2)
       
-      form("name").hasErrors must beTrue
-      form("repeat").hasErrors must beTrue
-      form("color").hasErrors must beFalse
+      form("recipe_name").hasErrors must beTrue
+      form("uu_string").hasErrors must beTrue
+      form("relation").hasErrors must beFalse
       
       form.value must beNone
     }
     
     "require name" in {
-      val form = helloForm.bind(Map("repeat" -> "10", "color" -> "red"))
+      val form = helloForm.bind(Map("uu_string" -> "hello robot", "relation" -> "equal"))
       
       form.hasErrors must beTrue
       form.errors.size must equalTo(1)
       
-      form("name").hasErrors must beTrue
-      form("repeat").hasErrors must beFalse
-      form("color").hasErrors must beFalse
+      form("recipe_name").hasErrors must beTrue
+      form("uu_string").hasErrors must beFalse
+      form("relation").hasErrors must beFalse
       
-      form.data must havePair("color" -> "red")
-      form.data must havePair("repeat" -> "10")
+      form.data must havePair("uu_string" -> "hello robot")
+      form.data must havePair("relation" -> "equal")
       
-      form("repeat").value must beSome.which(_ == "10")
-      form("color").value must beSome.which(_ == "red")
-      form("name").value must beNone
+      form("uu_string").value must beSome.which(_ == "hello robot")
+      form("relation").value must beSome.which(_ == "equal")
+      form("recipe_name").value must beNone
       
       form.value must beNone
     }
     
+    /*
     "validate repeat as numeric" in {
       val form = helloForm.bind(Map("name" -> "Bob", "repeat" -> "xx", "color" -> "red"))
       
@@ -83,6 +84,8 @@ class FormSpec extends Specification {
         case _ => false
       }}
     }
+    * 
+    */
     
   }
   

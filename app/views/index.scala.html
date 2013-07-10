@@ -1,34 +1,47 @@
-@(helloForm: Form[(String,Int,Option[String])])
+@(helloForm: Form[(String, String, String, String)])
 
 @import helper._
 
-@main(title = "The 'helloworld' application") {
+@main(title = "Recipe editor") {
 
-    <h1>Configure your 'Hello world':</h1>
+    <h1>Edit your recipe</h1>
 
     @form(action = routes.Application.sayHello, args = 'id -> "helloform") {
 
         @inputText(
-            field = helloForm("name"),
-            args = '_label -> "What's your name?", 'placeholder -> "World"
+            field = helloForm("recipe_name"),
+            args = '_label -> "Recipe name:", 'placeholder -> "respond_to_"
         )
-
+        
+	<table>
+	<tr>
+		<td>
         @inputText(
-            field = helloForm("repeat"),
-            args = '_label -> "How many times?", 'size -> 3, 'placeholder -> 10
+            field = helloForm("uu_string"),
+            args = '_label -> "Regex to match user utterance:", 'size -> 3, 'placeholder -> "(?i:hello)"
         )
-
+		</td>
+		
+		<td>
         @select(
-            field = helloForm("color"), 
+            field = helloForm("relation"), 
             options = options(
-                "" -> "Default",
-                "red" -> "Red",
-                "green" -> "Green",
-                "blue" -> "Blue"
+                "equal" -> "equal",
+                "substr" -> "substr",
+                "PartialMatch" -> "PartialMatch",
+                "CompleteMatch" -> "CompleteMatch"
             ),
-            args = '_label -> "Choose a color"
+            args = '_label -> "Relation:"
         )
-
+        </td>
+      </tr>
+	</table>
+	   
+	   @inputText(
+            field = helloForm("ru_string"),
+            args = '_label -> "Robot speech:", 'placeholder -> "Hey, earthling!"
+        )
+	
         <p class="buttons">
             <input type="submit" id="submit">
         <p>

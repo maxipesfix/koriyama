@@ -1,15 +1,69 @@
-@(name: String, repeat: Int, color: Option[String])
+@(recipe_name: String, uu_string: String, relation: String, ru_string: String)
 
 @main("Here is the result:") {
-
-    <ul style="color: @color.getOrElse("inherited")">
-        @for(_ <- 1 to repeat) {
-            <li>Hello @name!</li>
-        }
+	
+	<ul>
+		<li>Recipe: @recipe_name</li>
+    	<li>uu_string: @uu_string</li>
+    	<li>relation: @relation</li>
+    	<li>robot speech: @ru_string</li>
     </ul>
-
+    
     <p class="buttons">
         <a href="@routes.Application.index">Back to the form</a>
     </p>
+
+	<hr>
+
+<textarea rows="100" cols="100" style="border:none;">
+
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- this recipe makes the robot respond to keyboard input -->
+
+<!-- top level activity -->
+<recipe name="@recipe_name">
+
+<!-- preconditions: unification amd bindings -->
+<precondition>
+    <atom quantifier="exist">
+      <!-- object type and subtype -->
+      <slot name="type" val="im"/>
+      <slot name="subtype" val="user"/>
+      <!-- arguments -->
+      <slot name="uu_unhandled" val="true" rel="equal"/>
+      <slot name="uu_string" val="@uu_string" rel="@relation"/>
+      <!-- bindings -->
+      <slot name="seat" rel="bind" var="present_user_seat"/>
+      <slot name="this" rel="bind" var="present_user_atom"/>
+    </atom>
+</precondition>
+
+<!-- interrupt the recipe when this condition fails -->
+<whilecondition>
+</whilecondition>
+
+
+<body order="sequence">
+    <action name="converse" actor="robot" priority="2">
+    	<roboml:args>
+            <arg name="speech" value="@ru_string" />
+            <arg name="player_seat" value="$present_user_seat" />
+            <arg name="non_verbal" value="master" />
+       	</roboml:args>
+    </action>
+
+</body>
+
+<!-- set right after execution ends -->
+<assignpost>
+  <atom>
+    <!-- set object which name is equal to the one stored in var -->
+    <slot name="this" var="present_user_atom"/>
+    <slot name="uu_unhandled" val="false"/>
+  </atom>
+</assignpost>
+
+</recipe>
+</textarea>
 
 }

@@ -21,9 +21,10 @@ object Application extends Controller {
    */
   val helloForm = Form(
     tuple(
-      "name" -> nonEmptyText,
-      "repeat" -> number(min = 1, max = 100),
-      "color" -> optional(text)
+      "recipe_name" -> nonEmptyText,
+      "uu_string" -> nonEmptyText,
+      "relation" -> nonEmptyText,
+      "ru_string" -> nonEmptyText
     )
   )
 
@@ -50,7 +51,8 @@ object Application extends Controller {
 
   helloForm.bindFromRequest.fold(
       formWithErrors => BadRequest(html.index(formWithErrors)),
-      {case (name, repeat, color) => Ok(html.hello(name, repeat.toInt, color))}
+      {case (recipe_name, uu_string, relation, ru_string) => 
+        Ok(html.hello(recipe_name, uu_string, relation, ru_string))}
     )
   }
   
