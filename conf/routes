@@ -10,3 +10,6 @@ GET     /hello                      controllers.Application.sayHello
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+# Download recipe
+GET     /download                   controllers.Application.downloadRecipe

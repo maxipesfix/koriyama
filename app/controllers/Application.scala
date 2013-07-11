@@ -9,9 +9,11 @@ import views._
 
 import play.api.db._
 import play.api.Play.current
- 
+
 import anorm._
-import anorm.SqlParser._ 
+import anorm.SqlParser._
+
+import play.api.libs.iteratee.Enumerator
 
 
 object Application extends Controller {
@@ -24,9 +26,7 @@ object Application extends Controller {
       "recipe_name" -> nonEmptyText,
       "uu_string" -> nonEmptyText,
       "relation" -> nonEmptyText,
-      "ru_string" -> nonEmptyText
-    )
-  )
+      "ru_string" -> nonEmptyText))
 
   val result = false
 
@@ -36,12 +36,12 @@ object Application extends Controller {
    * Home page
    */
   def index = Action { implicit request =>
-  DB.withConnection { implicit c =>
+    DB.withConnection { implicit c =>
 
-    val result: Boolean = SQL("Select 1").execute()    
-    println("Datasource result: " + result)
-    Ok(html.index(helloForm))  
-  }
+      val result: Boolean = SQL("Select 1").execute()
+      println("Datasource result: " + result)
+      Ok(html.index(helloForm))
+    }
   }
 
   /**
@@ -49,26 +49,27 @@ object Application extends Controller {
    */
   def sayHello = Action { implicit request =>
 
-  helloForm.bindFromRequest.fold(
+    helloForm.bindFromRequest.fold(
       formWithErrors => BadRequest(html.index(formWithErrors)),
-      {case (recipe_name, uu_string, relation, ru_string) => 
-        Ok(html.hello(recipe_name, uu_string, relation, ru_string))}
-    )
+      {
+        case (recipe_name, uu_string, relation, ru_string) =>
+          Ok(html.hello(recipe_name, uu_string, relation, ru_string))
+      })
   }
-  
+
   /**
    *  to save the file
    */
-  /*
- def index = Action {
-  Ok.stream(
-    Enumerator("kiki", "foo", "bar").andThen(Enumerator.eof)
+
+  def downloadRecipe = Action {
+    /*
+    Ok.sendFile(
+	content = new java.io.File("/tmp/fileToServe.pdf"),
+    inline = true
   )
+    */
+    Ok.stream(
+      Enumerator("kiki", "foo", "bar").andThen(Enumerator.eof))
   }
-   * 
-   */
- 
-  
-  
-  
+
 }
