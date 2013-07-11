@@ -15,17 +15,19 @@ class FormSpec extends Specification {
       val form = helloForm.bind(Map.empty[String,String])
       
       form.hasErrors must beTrue
-      form.errors.size must equalTo(2)
+      form.errors.size must equalTo(4)
       
       form("recipe_name").hasErrors must beTrue
       form("uu_string").hasErrors must beTrue
-      form("relation").hasErrors must beFalse
+      form("ru_string").hasErrors must beTrue
+      form("relation").hasErrors must beTrue
       
       form.value must beNone
     }
     
     "require name" in {
-      val form = helloForm.bind(Map("uu_string" -> "hello robot", "relation" -> "equal"))
+      val form = helloForm.bind(Map("uu_string" -> "hello robot", "relation" -> "equal", 
+          "ru_string" -> "hey, there!"))
       
       form.hasErrors must beTrue
       form.errors.size must equalTo(1)
@@ -33,12 +35,15 @@ class FormSpec extends Specification {
       form("recipe_name").hasErrors must beTrue
       form("uu_string").hasErrors must beFalse
       form("relation").hasErrors must beFalse
+      form("ru_string").hasErrors must beFalse
       
       form.data must havePair("uu_string" -> "hello robot")
       form.data must havePair("relation" -> "equal")
+      form.data must havePair("ru_string" -> "hey, there!")
       
       form("uu_string").value must beSome.which(_ == "hello robot")
       form("relation").value must beSome.which(_ == "equal")
+      form("ru_string").value must beSome.which(_ == "hey, there!")
       form("recipe_name").value must beNone
       
       form.value must beNone
