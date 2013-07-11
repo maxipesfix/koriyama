@@ -56,7 +56,17 @@ object Application extends Controller {
     )
   }
   
- 
+  /**
+   *  to save the file
+   */
+  /*
+ def index = Action {
+  Ok.stream(
+    Enumerator("kiki", "foo", "bar").andThen(Enumerator.eof)
+  )
+  }
+   * 
+   */
  
   
   
