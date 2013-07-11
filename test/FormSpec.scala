@@ -15,7 +15,7 @@ class FormSpec extends Specification {
       val form = helloForm.bind(Map.empty[String,String])
       
       form.hasErrors must beTrue
-      form.errors.size must equalTo(4)
+      form.errors.size must equalTo(2)
       
       form("recipe_name").hasErrors must beTrue
       form("uu_string").hasErrors must beTrue
@@ -30,7 +30,7 @@ class FormSpec extends Specification {
           "ru_string" -> "hey, there!"))
       
       form.hasErrors must beTrue
-      form.errors.size must equalTo(1)
+      form.errors.size must equalTo(2)
       
       form("recipe_name").hasErrors must beTrue
       form("uu_string").hasErrors must beFalse
