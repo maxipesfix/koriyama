@@ -15,8 +15,15 @@
 
 	<hr>
 
+Add the following line to the &lt;recipefiles&gt; section of initialize_im.xml:
+<p>
+<textarea rows="1" cols="100" style="border:none;">
+<file>chains/keyboard/@(recipe_name + ".xml")</file>
+</textarea>
+<p>
+Create file chains/keyboard/@(recipe_name+".xml") with the following contents:
+<p>
 <textarea rows="100" cols="100" style="border:none;">
-
 <?xml version="1.0" encoding="US-ASCII"?>
 <!-- this recipe makes the robot respond to keyboard input -->
 
