@@ -10,7 +10,7 @@ class FormSpec extends Specification {
   import controllers.Application.helloForm
   
   "HelloWorld form" should {
-    
+      /*
     "require all fields" in {
       val form = helloForm.bind(Map.empty[String,String])
       
@@ -48,7 +48,8 @@ class FormSpec extends Specification {
       
       form.value must beNone
     }
-    
+    */
+  
     /*
     "validate repeat as numeric" in {
       val form = helloForm.bind(Map("name" -> "Bob", "repeat" -> "xx", "color" -> "red"))
